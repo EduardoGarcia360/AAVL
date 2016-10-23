@@ -13,7 +13,6 @@ ArbolAVL* miarbol= (ArbolAVL*)malloc(sizeof(ArbolAVL));
 
 int main()
 {
-    cout<<"algo"<<endl;
     miarbol->insertar(10);
     miarbol->insertar(5);
     miarbol->insertar(13);
@@ -23,5 +22,9 @@ int main()
     miarbol->insertar(16);
     NodoAVL* raiz = miarbol->obtenerRaiz();
     miarbol->preOrden(raiz);
-    cout<<"otro"<<endl;
+    if(miarbol->eliminar(16)){
+        miarbol->preOrden(raiz);
+    }else{
+        cout<<"el papu"<<endl;
+    }
 }

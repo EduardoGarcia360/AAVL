@@ -26,9 +26,11 @@ struct ArbolAVL{
     NodoAVL* rotacionDobleIzquierda(NodoAVL* c);
     NodoAVL* rotacionDobleDerecha(NodoAVL* c);
     NodoAVL* insertarAVL(NodoAVL* nuevo, NodoAVL* subAr);
+    NodoAVL* obtenerNodoReemplazo(NodoAVL* aux);
     void insertar(int d);
     void preOrden(NodoAVL* r);
     void graficar(NodoAVL* r);
+    bool eliminar(int d);
 };
 
 #endif // ARBOLAVL_H

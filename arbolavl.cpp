@@ -144,6 +144,83 @@ void ArbolAVL::preOrden(NodoAVL *r){
     }
 }
 
+bool ArbolAVL::eliminar(int d){
+    NodoAVL* aux = raiz;
+    NodoAVL* padre = raiz;
+    bool esHijoIzq=true;
+    while(aux->dato != d){
+        padre = aux;
+        if(d<aux->dato){
+            esHijoIzq=true;
+            aux = aux->hijoIzquierdo;
+        }else{
+            esHijoIzq=false;
+            aux = aux->hijoDerecho;
+        }
+        if(aux==NULL){
+            return false;
+        }
+    }
+
+    if(aux->hijoIzquierdo == NULL && aux->hijoDerecho == NULL){
+        //nodo hoja o puede ser la raiz
+        if(aux == raiz){
+            //unico nodo osea la raiz
+            raiz = NULL;
+        }else if(esHijoIzq){
+            padre->hijoIzquierdo = NULL;
+        }else{
+            padre->hijoDerecho = NULL;
+        }
+    }else if(aux->hijoDerecho == NULL){
+        if(aux == raiz){
+            raiz = aux->hijoIzquierdo;
+        }else if(esHijoIzq){
+            padre->hijoIzquierdo = aux->hijoIzquierdo;
+        }else{
+            padre->hijoDerecho = aux->hijoIzquierdo;
+        }
+    }else if(aux->hijoIzquierdo == NULL){
+        if(aux == raiz){
+            raiz = aux->hijoDerecho;
+        }else if(esHijoIzq){
+            padre->hijoIzquierdo = aux->hijoDerecho;
+        }else{
+            padre->hijoDerecho = aux->hijoIzquierdo;
+        }
+    }else{
+        NodoAVL* reemplazo = obtenerNodoReemplazo(aux);
+        if(aux == raiz){
+            raiz=reemplazo;
+        }else if(esHijoIzq){
+            padre->hijoIzquierdo = reemplazo;
+        }else{
+            padre->hijoDerecho = reemplazo;
+        }
+
+        reemplazo->hijoIzquierdo = aux->hijoIzquierdo;
+    }
+    return true;
+}
+
+NodoAVL* ArbolAVL::obtenerNodoReemplazo(NodoAVL *nodoReemp){
+    NodoAVL* reemplazarPadre=nodoReemp;
+    NodoAVL* reemplazo=nodoReemp;
+    NodoAVL* aux = nodoReemp->hijoDerecho;
+    while(aux!=NULL){
+        reemplazarPadre=reemplazo;
+        reemplazo=aux;
+        aux=aux->hijoIzquierdo;
+    }
+
+    if(reemplazo!=nodoReemp->hijoDerecho){
+        reemplazarPadre->hijoIzquierdo = reemplazo->hijoDerecho;
+        reemplazo->hijoDerecho = nodoReemp->hijoDerecho;
+    }
+
+    return reemplazo;
+}
+
 void ArbolAVL::graficar(NodoAVL *r){
 
 }
