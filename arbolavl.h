@@ -29,8 +29,9 @@ struct ArbolAVL{
     NodoAVL* obtenerNodoReemplazo(NodoAVL* aux);
     void insertar(int d);
     void preOrden(NodoAVL* r);
-    void graficar(NodoAVL* r);
+    void inOrden(NodoAVL* r);
     bool eliminar(int d);
+    void graficar(NodoAVL* r);
 };
 
 #endif // ARBOLAVL_H

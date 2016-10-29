@@ -9,7 +9,6 @@ using namespace std;
 bool r=false;
 std::stringstream contenido;
 #define MAX(A,B) ((A)>(B)?(A):(B))
-#define MIN(A,B) ((A)>(B)?(B):(A))
 
 NodoAVL::NodoAVL(int dato){
     this->dato = dato;
@@ -166,7 +165,8 @@ bool ArbolAVL::eliminar(int d){
         //nodo hoja o puede ser la raiz
         if(aux == raiz){
             //unico nodo osea la raiz
-            raiz = NULL;
+            free(raiz);
+            r=false;
         }else if(esHijoIzq){
             padre->hijoIzquierdo = NULL;
         }else{
@@ -221,6 +221,54 @@ NodoAVL* ArbolAVL::obtenerNodoReemplazo(NodoAVL *nodoReemp){
     return reemplazo;
 }
 
-void ArbolAVL::graficar(NodoAVL *r){
+void ArbolAVL::inOrden(NodoAVL *r){
+    if(r){
+        inOrden(r->hijoIzquierdo);
 
+        contenido<<"\""<<r->dato
+            <<"\"  [ label = \" Dato: "<<r->dato
+            <<' '<<"\n Algo: "<<"4"
+            <<' '<<"  \" shape = \"ellipse\" ] ; \n";
+
+        if(r->hijoIzquierdo){
+            contenido<<"\""<<r->dato<<"\"->\""<<r->hijoIzquierdo->dato<<"\";\n";
+        }
+
+        if(r->hijoDerecho){
+            contenido<<"\""<<r->dato<<"\"->\""<<r->hijoDerecho->dato<<"\";\n";
+        }
+
+        inOrden(r->hijoDerecho);
+    }
+}
+
+void ArbolAVL::graficar(NodoAVL *r){
+    contenido.str("");
+
+    inOrden(r);
+    char *ruta="dot -Tpng /home/eduardo/Descargas/arbolavl.dot -o /home/eduardo/arbolavl.png";
+
+    std::string tod=contenido.str(); //se concatena todo en una variable string
+    char *pass=new char[tod.length()+1]; //se declara un char* aux q contendra todo lo de la variable "todo"
+    strcpy(pass,tod.c_str());
+
+    std::stringstream cuerpo;
+    /*inicio del documento*/
+    cuerpo <<"digraph G{\n node[shape=circle, style=filled];\n edge[color=blue];rankdir=UD \n ";
+
+    cuerpo<<pass;
+    cuerpo<< "\n}";
+    std::string todo=cuerpo.str(); //se concatena todo en una variable string
+    char *pass1=new char[todo.length()+1]; //se declara un char* aux q contendra todo lo de la variable "todo"
+    strcpy(pass1,todo.c_str()); //se igualan los valores
+
+    /*se escribe en el archivo*/
+    FILE * pFile;
+    pFile = fopen("/home/eduardo/Descargas/arbolavl.dot","w");
+    if(pFile!=NULL){
+        fputs (pass1,pFile);
+        fclose (pFile);
+
+        system(ruta);
+    }
 }
