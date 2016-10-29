@@ -1,9 +1,5 @@
 #ifndef ARBOLAVL_H
 #define ARBOLAVL_H
-#include "stdlib.h"
-#include "stdio.h"
-#include "string.h"
-#include "iostream"
 
 typedef struct NodoAVL NodoAVL;
 typedef struct ArbolAVL ArbolAVL;
